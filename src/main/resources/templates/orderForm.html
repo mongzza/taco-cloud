@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+	<meta charset="UTF-8">
+	<title>Taco Cloud</title>
+	<link rel="stylesheet" th:href="@{/static/style.css}" />
+</head>
+<body>
+
+	<form method="post" th:action="@{/orders}" th:object="${order}">
+		<h1>Order your taco creations</h1>
+
+		<img th:src="@{/images/TacoCloud.png}" />
+		<a th:href="@{/design}" id="another">Design another taco</a><br/>
+
+		<div th:if="${#fields.hasErrors()}">
+			<span class="validationError">
+				Please correct the problems below and resubmit.
+			</span>
+		</div>
+
+		<h3>Deliver my taco masterpieces to...</h3>
+
+		<label for="deliveryName">주문자명 : </label>
+		<input type="text" th:field="*{deliveryName}" />
+		<span class="validationError"
+		th:if="${#fields.hasErrors('deliveryName')}"
+		th:errors="*{deliveryName}">DeliveryName ERROR</span>
+		<br/>
+
+		<label for="deliveryCity">시/도 : </label>
+		<input type="text" th:field="*{deliveryCity}" />
+		<span class="validationError"
+		      th:if="${#fields.hasErrors('deliveryCity')}"
+		      th:errors="*{deliveryCity}">DeliveryCity ERROR</span>
+		<br/>
+
+		<label for="deliveryDistrict">시/구/군 : </label>
+		<input type="text" th:field="*{deliveryDistrict}" />
+		<span class="validationError"
+		      th:if="${#fields.hasErrors('deliveryDistrict')}"
+		      th:errors="*{deliveryDistrict}">DeliveryDistrict ERROR</span>
+		<br/>
+
+		<label for="deliveryStreet">도로명 : </label>
+		<input type="text" th:field="*{deliveryStreet}" />
+		<span class="validationError"
+		      th:if="${#fields.hasErrors('deliveryStreet')}"
+		      th:errors="*{deliveryStreet}">DeliveryStreet ERROR</span>
+		<br/>
+
+		<label for="deliveryDetail">상세주소 : </label>
+		<input type="text" th:field="*{deliveryDetail}" />
+		<span class="validationError"
+		      th:if="${#fields.hasErrors('deliveryDetail')}"
+		      th:errors="*{deliveryDetail}">DeliveryDetail ERROR</span>
+		<br/>
+
+		<h3>결제 방법 : </h3>
+		<label for="ccNumber">카드번호 : </label>
+		<input type="text" th:field="*{ccNumber}" />
+		<span class="validationError"
+		      th:if="${#fields.hasErrors('ccNumber')}"
+		      th:errors="*{ccNumber}">ccNumber ERROR</span>
+		<br/>
+
+		<label for="ccExpiration">유효기간 : </label>
+		<input type="text" th:field="*{ccExpiration}" />
+		<span class="validationError"
+		      th:if="${#fields.hasErrors('ccExpiration')}"
+		      th:errors="*{ccExpiration}">ccExpiration ERROR</span>
+		<br/>
+
+		<label for="ccCVC">CVC : </label>
+		<input type="text" th:field="*{ccCVC}" />
+		<span class="validationError"
+		      th:if="${#fields.hasErrors('ccCVC')}"
+		      th:errors="*{ccCVC}">ccCVC ERROR</span>
+		<br/>
+
+		<input type="submit" value="Submit order" />
+
+	</form>
+
+</body>
+</html>
