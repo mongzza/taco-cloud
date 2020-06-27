@@ -1,40 +1,53 @@
 package tacos.web;
 
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.Errors;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.validation.ObjectError;
+import org.springframework.web.bind.annotation.*;
 import tacos.Ingredient;
 import tacos.Ingredient.Type;
+import tacos.Order;
 import tacos.Taco;
+import tacos.data.IngredientRepository;
+import tacos.data.TacoRepository;
 
 import javax.validation.Valid;
-import java.util.Arrays;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
 @Slf4j
 @Controller
 @RequestMapping("/design")
+@SessionAttributes("order")
 public class DesignTacoController {
+
+	private final IngredientRepository ingredientRepo;
+	private TacoRepository tacoRepo;
+
+	@Autowired
+	public DesignTacoController(IngredientRepository ingredientRepo, TacoRepository tacoRepo) {
+		this.ingredientRepo = ingredientRepo;
+		this.tacoRepo = tacoRepo;
+	}
+
+	@ModelAttribute(name = "order")
+	public Order order() {
+		return new Order();
+	}
+
+	@ModelAttribute(name = "taco")
+	public Taco taco() {
+		return new Taco();
+	}
 
 	@GetMapping
 	public String showDesignForm(Model model) {
-		List<Ingredient> ingredients = Arrays.asList(
-				new Ingredient("FLTO", "밀가루 또띠아", Type.WRAP),
-				new Ingredient("COTO", "옥수수 또띠아", Type.WRAP),
-				new Ingredient("GRBF", "떡갈비", Type.PROTEIN),
-				new Ingredient("CARN", "소불고기", Type.PROTEIN),
-				new Ingredient("TMTO", "큐브 토마토", Type.VEGGIES),
-				new Ingredient("LETC", "상추", Type.VEGGIES),
-				new Ingredient("CHED", "체다 치즈", Type.CHEESE),
-				new Ingredient("MOZZ", "모짜렐라 치즈", Type.CHEESE),
-				new Ingredient("SLSA", "살사", Type.SAUCE),
-				new Ingredient("SRCR", "사워크림", Type.SAUCE)
-		);
+		List<Ingredient> ingredients = new ArrayList<>();
+		ingredientRepo.findAll().forEach(i -> ingredients.add(i));
 
 		Type[] types = Ingredient.Type.values();
 		for(Type type : types) {
@@ -53,13 +66,13 @@ public class DesignTacoController {
 	}
 
 	@PostMapping
-	public String processDesign(@Valid Taco design, Errors errors) {
+	public String processDesign(@Valid Taco design, Errors errors, @ModelAttribute Order order) {
 		if(errors.hasErrors()) {
 			return "design";
 		}
 
-		// 타코 디자인 저장
-		log.info("Processing design : " + design);
+		Taco saved = tacoRepo.save(design);
+		order.addDesign(saved);
 
 		return "redirect:/orders/current";
 	}
