@@ -3,16 +3,24 @@ package tacos;
 import lombok.Data;
 import org.hibernate.validator.constraints.CreditCardNumber;
 
+import javax.persistence.*;
 import javax.validation.constraints.Digits;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Pattern;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
 @Data
-public class Order {
+@Entity
+@Table(name = "Taco_Order")
+public class Order implements Serializable {
 
+	private static final long serialVersionUid = 1L;
+
+	@Id
+	@GeneratedValue(strategy = GenerationType.AUTO)
 	private long id;
 	private Date placedAt;
 
@@ -41,10 +49,15 @@ public class Order {
 	@Digits(integer = 3, fraction = 0, message = "올바르지 않은 CVC입니다.")
 	private String ccCVC;
 
+	@ManyToMany(targetEntity = Taco.class)
 	private List<Taco> tacos = new ArrayList<>();
 
 	public void addDesign(Taco design) {
 		this.tacos.add(design);
 	}
 
+	@PrePersist
+	void placedAt() {
+		this.placedAt = new Date();
+	}
 }
