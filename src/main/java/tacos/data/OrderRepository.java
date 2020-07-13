@@ -7,5 +7,5 @@ import java.util.List;
 
 public interface OrderRepository extends CrudRepository<Order, Long> {
 
-	List<Order> findByDeliveryZip(String deliveryZip);
+	List<Order> findByDeliveryStreet(String deliveryZip);
 }
