@@ -24,6 +24,9 @@ public class Order implements Serializable {
 	private long id;
 	private Date placedAt;
 
+	@ManyToOne
+	private User user;
+
 	@NotBlank(message = "주문자명은 필수 입력값입니다.")
 	private String deliveryName;
 

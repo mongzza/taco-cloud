@@ -8,5 +8,11 @@
 <body>
 	<h1>안녕하세요</h1>
 	<img th:src="@{/images/TacoCloud.png}" />
+
+	<form method="post" th:action="@{/logout}" id="logoutForm">
+		<input type="submit" value="Logout" />
+	</form>
+
+	<a th:href="@{/design}" id="design">타코 만들기</a>
 </body>
 </html>
