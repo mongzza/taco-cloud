@@ -10,11 +10,6 @@ public class IngredientModelAssembler extends RepresentationModelAssemblerSuppor
 	}
 
 	@Override
-	protected IngredientModel instantiateModel(Ingredient ingredient) {
-		return new IngredientModel(ingredient);
-	}
-
-	@Override
 	public IngredientModel toModel(Ingredient ingredient) {
 		return createModelWithId(ingredient.getId(), ingredient);
 	}

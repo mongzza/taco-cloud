@@ -1,6 +1,7 @@
 package tacos.web.api;
 
 import lombok.Getter;
+import org.springframework.data.rest.core.annotation.RestResource;
 import org.springframework.hateoas.CollectionModel;
 import org.springframework.hateoas.RepresentationModel;
 import org.springframework.hateoas.server.core.Relation;
@@ -9,6 +10,7 @@ import tacos.Taco;
 
 import java.util.Date;
 
+@RestResource(rel = "tacos", path = "tacoes")
 @Relation(value = "taco", collectionRelation = "tacos")
 public class TacoModel extends RepresentationModel<TacoModel> {
 
