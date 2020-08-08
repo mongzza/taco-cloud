@@ -6,7 +6,7 @@ import tacos.Ingredient;
 public class IngredientModelAssembler extends RepresentationModelAssemblerSupport<Ingredient, IngredientModel> {
 
 	public IngredientModelAssembler() {
-		super(IngredientRestController.class , IngredientModel.class);
+		super(IngredientController.class , IngredientModel.class);
 	}
 
 	@Override

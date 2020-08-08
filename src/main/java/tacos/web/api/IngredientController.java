@@ -11,12 +11,12 @@ import tacos.data.IngredientRepository;
 @RestController
 @RequestMapping(path = "/ingredients", produces = "application/json")
 @CrossOrigin(origins = "*")
-public class IngredientRestController {
+public class IngredientController {
 
 	private IngredientRepository repo;
 
 	@Autowired
-	public IngredientRestController(IngredientRepository repo) {
+	public IngredientController(IngredientRepository repo) {
 		this.repo = repo;
 	}
 
